@@ -60,6 +60,22 @@ class map {
         }
         return _node.value;
     }
+    each = (cb) => {
+        let _node = this.startNode;
+        let stack = [];
+        let dfs = (_node) => {
+            stack.push(_node.keyCh);
+            if (_node.value) {
+                cb(stack.join(""), _node.value);
+            }
+            _node.childs.forEach((child) => {
+                dfs(child);
+            });
+            stack.pop();
+        };
+
+        dfs(_node);
+    }
 }
 
 let _map = new map();
@@ -67,3 +83,6 @@ _map.set("hello", "world");
 _map.set("helloworld", "worldhello");
 console.log(_map.get("hello"))
 console.log(_map.get("helloworld"))
+_map.each((key, value) => {
+    console.log({ key }, { value });
+});
